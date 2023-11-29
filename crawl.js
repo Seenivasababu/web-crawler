@@ -1,9 +1,18 @@
 const { JSDOM } = require("jsdom");
 
+async function crawlPage(currentURL){
+    console.log(`Actively crawling ${currentURL}`);
+
+    const res = await fetch(currentURL)
+
+    console.log(await res.text());
+}
+
 function getURLsFromHTML(htmlBody, baseURL) {
   const urls = [];
   const dom = new JSDOM(htmlBody);
   const linkElements = dom.window.document.querySelectorAll("a");
+  
 
   for (const linkElement of linkElements) {
     if (linkElement.href.slice(0, 1) === "/") {
@@ -41,4 +50,5 @@ function normalizeURL(urlString) {
 module.exports = {
   normalizeURL,
   getURLsFromHTML,
+  crawlPage
 };
